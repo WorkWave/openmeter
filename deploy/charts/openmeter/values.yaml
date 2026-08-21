@@ -112,6 +112,38 @@ tolerations: []
 # See the [API reference](https://kubernetes.io/docs/reference/kubernetes-api/workload-resources/pod-v1/#scheduling) for details.
 affinity: {}
 
+# -- Additional environment variables to set on all OpenMeter containers.
+# See the [API reference](https://kubernetes.io/docs/reference/kubernetes-api/workload-resources/pod-v1/#environment-variables) for details.
+# @default -- No extra environment variables.
+extraEnv: []
+# - name: MY_ENV_VAR
+#   valueFrom:
+#     secretKeyRef:
+#       name: my-secret
+#       key: my-key
+
+# -- Additional environment variable sources (e.g., Secrets, ConfigMaps) to attach to all OpenMeter containers.
+# @default -- No extra envFrom sources.
+extraEnvFrom: []
+# - secretRef:
+#     name: my-secret
+# - configMapRef:
+#     name: my-configmap
+
+# -- Additional volumes to add to all OpenMeter pods.
+# @default -- No extra volumes.
+extraVolumes: []
+# - name: my-volume
+#   secret:
+#     secretName: my-secret
+
+# -- Additional volume mounts to add to all OpenMeter containers.
+# @default -- No extra volume mounts.
+extraVolumeMounts: []
+# - name: my-volume
+#   mountPath: /etc/my-config
+#   readOnly: true
+
 # -- OpenMeter configuration
 config: {}
 
