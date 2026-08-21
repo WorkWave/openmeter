@@ -29,13 +29,16 @@ spec:
       serviceAccountName: {{ include "openmeter.serviceAccountName" . }}
       securityContext:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
-      {{ if or .Values.postgresql.enabled .Values.clickhouse.enabled -}}
+      {{ if or .Values.postgresql.enabled .Values.clickhouse.enabled .Values.redis.enabled -}}
       initContainers:
         {{- if .Values.postgresql.enabled -}}
         {{- include "openmeter.init.postgres" (list .) | nindent 8 }}
         {{- end }}
         {{- if .Values.clickhouse.enabled -}}
         {{- include "openmeter.init.clickhouse" (list .) | nindent 8 }}
+        {{- end }}
+        {{- if .Values.redis.enabled -}}
+        {{- include "openmeter.init.redis" (list .) | nindent 8 }}
         {{- end }}
       {{- end }}
       containers:
@@ -71,6 +74,17 @@ spec:
               mountPath: /usr/local/share/ca-certificates
               readOnly: true
             {{- end }}
+            {{- with .Values.extraVolumeMounts }}
+            {{- toYaml . | nindent 12 }}
+            {{- end }}
+          {{- with .Values.extraEnv }}
+          env:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+          {{- with .Values.extraEnvFrom }}
+          envFrom:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
       volumes:
         - name: config
           configMap:
@@ -79,6 +93,9 @@ spec:
         - name: ca-certificates
           configMap:
             name: ca-certificates
+        {{- end }}
+        {{- with .Values.extraVolumes }}
+        {{- toYaml . | nindent 8 }}
         {{- end }}
       {{- with .Values.nodeSelector }}
       nodeSelector:
@@ -124,13 +141,16 @@ spec:
       serviceAccountName: {{ include "openmeter.serviceAccountName" . }}
       securityContext:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
-      {{ if or .Values.postgresql.enabled .Values.clickhouse.enabled -}}
+      {{ if or .Values.postgresql.enabled .Values.clickhouse.enabled .Values.redis.enabled -}}
       initContainers:
         {{- if .Values.postgresql.enabled -}}
         {{- include "openmeter.init.postgres" (list .) | nindent 8 }}
         {{- end }}
         {{- if .Values.clickhouse.enabled -}}
         {{- include "openmeter.init.clickhouse" (list .) | nindent 8 }}
+        {{- end }}
+        {{- if .Values.redis.enabled -}}
+        {{- include "openmeter.init.redis" (list .) | nindent 8 }}
         {{- end }}
       {{- end }}
       containers:
@@ -163,6 +183,17 @@ spec:
               mountPath: /usr/local/share/ca-certificates
               readOnly: true
             {{- end }}
+            {{- with .Values.extraVolumeMounts }}
+            {{- toYaml . | nindent 12 }}
+            {{- end }}
+          {{- with .Values.extraEnv }}
+          env:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+          {{- with .Values.extraEnvFrom }}
+          envFrom:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
       volumes:
         - name: config
           configMap:
@@ -171,6 +202,9 @@ spec:
         - name: ca-certificates
           configMap:
             name: ca-certificates
+        {{- end }}
+        {{- with .Values.extraVolumes }}
+        {{- toYaml . | nindent 8 }}
         {{- end }}
       {{- with .Values.nodeSelector }}
       nodeSelector:
@@ -216,13 +250,16 @@ spec:
       serviceAccountName: {{ include "openmeter.serviceAccountName" . }}
       securityContext:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
-      {{ if or .Values.postgresql.enabled .Values.clickhouse.enabled -}}
+      {{ if or .Values.postgresql.enabled .Values.clickhouse.enabled .Values.redis.enabled -}}
       initContainers:
         {{- if .Values.postgresql.enabled -}}
         {{- include "openmeter.init.postgres" (list .) | nindent 8 }}
         {{- end }}
         {{- if .Values.clickhouse.enabled -}}
         {{- include "openmeter.init.clickhouse" (list .) | nindent 8 }}
+        {{- end }}
+        {{- if .Values.redis.enabled -}}
+        {{- include "openmeter.init.redis" (list .) | nindent 8 }}
         {{- end }}
       {{- end }}
       containers:
@@ -255,6 +292,17 @@ spec:
               mountPath: /usr/local/share/ca-certificates
               readOnly: true
             {{- end }}
+            {{- with .Values.extraVolumeMounts }}
+            {{- toYaml . | nindent 12 }}
+            {{- end }}
+          {{- with .Values.extraEnv }}
+          env:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+          {{- with .Values.extraEnvFrom }}
+          envFrom:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
       volumes:
         - name: config
           configMap:
@@ -263,6 +311,9 @@ spec:
         - name: ca-certificates
           configMap:
             name: ca-certificates
+        {{- end }}
+        {{- with .Values.extraVolumes }}
+        {{- toYaml . | nindent 8 }}
         {{- end }}
       {{- with .Values.nodeSelector }}
       nodeSelector:
@@ -308,13 +359,16 @@ spec:
       serviceAccountName: {{ include "openmeter.serviceAccountName" . }}
       securityContext:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
-      {{ if or .Values.postgresql.enabled .Values.clickhouse.enabled -}}
+      {{ if or .Values.postgresql.enabled .Values.clickhouse.enabled .Values.redis.enabled -}}
       initContainers:
         {{- if .Values.postgresql.enabled -}}
         {{- include "openmeter.init.postgres" (list .) | nindent 8 }}
         {{- end }}
         {{- if .Values.clickhouse.enabled -}}
         {{- include "openmeter.init.clickhouse" (list .) | nindent 8 }}
+        {{- end }}
+        {{- if .Values.redis.enabled -}}
+        {{- include "openmeter.init.redis" (list .) | nindent 8 }}
         {{- end }}
       {{- end }}
       containers:
@@ -347,6 +401,17 @@ spec:
               mountPath: /usr/local/share/ca-certificates
               readOnly: true
             {{- end }}
+            {{- with .Values.extraVolumeMounts }}
+            {{- toYaml . | nindent 12 }}
+            {{- end }}
+          {{- with .Values.extraEnv }}
+          env:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+          {{- with .Values.extraEnvFrom }}
+          envFrom:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
       volumes:
         - name: config
           configMap:
@@ -355,6 +420,9 @@ spec:
         - name: ca-certificates
           configMap:
             name: ca-certificates
+        {{- end }}
+        {{- with .Values.extraVolumes }}
+        {{- toYaml . | nindent 8 }}
         {{- end }}
       {{- with .Values.nodeSelector }}
       nodeSelector:
@@ -400,13 +468,16 @@ spec:
       serviceAccountName: {{ include "openmeter.serviceAccountName" . }}
       securityContext:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
-      {{ if or .Values.postgresql.enabled .Values.clickhouse.enabled -}}
+      {{ if or .Values.postgresql.enabled .Values.clickhouse.enabled .Values.redis.enabled -}}
       initContainers:
         {{- if .Values.postgresql.enabled -}}
         {{- include "openmeter.init.postgres" (list .) | nindent 8 }}
         {{- end }}
         {{- if .Values.clickhouse.enabled -}}
         {{- include "openmeter.init.clickhouse" (list .) | nindent 8 }}
+        {{- end }}
+        {{- if .Values.redis.enabled -}}
+        {{- include "openmeter.init.redis" (list .) | nindent 8 }}
         {{- end }}
       {{- end }}
       containers:
@@ -439,6 +510,17 @@ spec:
               mountPath: /usr/local/share/ca-certificates
               readOnly: true
             {{- end }}
+            {{- with .Values.extraVolumeMounts }}
+            {{- toYaml . | nindent 12 }}
+            {{- end }}
+          {{- with .Values.extraEnv }}
+          env:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+          {{- with .Values.extraEnvFrom }}
+          envFrom:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
       volumes:
         - name: config
           configMap:
@@ -447,6 +529,9 @@ spec:
         - name: ca-certificates
           configMap:
             name: ca-certificates
+        {{- end }}
+        {{- with .Values.extraVolumes }}
+        {{- toYaml . | nindent 8 }}
         {{- end }}
       {{- with .Values.nodeSelector }}
       nodeSelector:
