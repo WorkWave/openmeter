@@ -50,7 +50,7 @@ func NewClient(o Options, opts ...Option) (*redis.Client, error) {
 	if o.TLS.Enabled {
 		tlsConfig = &tls.Config{
 			InsecureSkipVerify: o.TLS.InsecureSkipVerify,
-			MinVersion:         tls.VersionTLS13,
+			MinVersion:         o.TLS.MinVersion.TLSVersionID(),
 		}
 	}
 
