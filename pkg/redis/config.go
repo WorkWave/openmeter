@@ -1,12 +1,33 @@
 package redis
 
 import (
+	"crypto/tls"
 	"errors"
 	"fmt"
 
 	"github.com/redis/go-redis/v9"
 	"github.com/spf13/viper"
 )
+
+// TLSVersion represents a TLS version as a string for configuration purposes.
+// Valid values: "1.2", "1.3". Defaults to "1.2" when empty or unset.
+type TLSVersion string
+
+const (
+	TLSVersion12 TLSVersion = "1.2"
+	TLSVersion13 TLSVersion = "1.3"
+)
+
+// TLSVersionID returns the crypto/tls constant for the configured version.
+// Defaults to tls.VersionTLS12 for unrecognized or empty values.
+func (v TLSVersion) TLSVersionID() uint16 {
+	switch v {
+	case TLSVersion13:
+		return tls.VersionTLS13
+	default:
+		return tls.VersionTLS12
+	}
+}
 
 // Config stores the user provided configuration parameters
 type Config struct {
@@ -21,6 +42,7 @@ type Config struct {
 	TLS struct {
 		Enabled            bool
 		InsecureSkipVerify bool
+		MinVersion         TLSVersion
 	}
 }
 
@@ -58,4 +80,5 @@ func Configure(v *viper.Viper, prefix string) {
 	v.SetDefault(fmt.Sprintf("%s.sentinel.masterName", prefix), "")
 	v.SetDefault(fmt.Sprintf("%s.tls.enabled", prefix), false)
 	v.SetDefault(fmt.Sprintf("%s.tls.insecureSkipVerify", prefix), false)
+	v.SetDefault(fmt.Sprintf("%s.tls.minVersion", prefix), string(TLSVersion12))
 }
